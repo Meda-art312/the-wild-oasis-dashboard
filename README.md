@@ -4,6 +4,8 @@ A hotel management dashboard built with React, Vite, and Supabase. Staff can tra
 
 This is a personal learning project. App access is restricted to trusted staff: every signed-in account can manage hotel records.
 
+For testing use admin@example.com and admin123 to login
+
 ## Features
 
 - Email/password login, protected pages, account details, and avatar uploads.
