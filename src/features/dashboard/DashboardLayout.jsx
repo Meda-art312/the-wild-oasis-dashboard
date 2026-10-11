@@ -16,11 +16,13 @@ const StyledDashboardLayout = styled.div`
 `;
 
 function DashboardLayout() {
-  const { bookings, isLoading: isLoading1 } = useRecentBookings();
-  const { confirmedStays, isLoading: isLoading2, numDays } = useRecentStays();
-  const { cabins, isLoading: isLoading3 } = useCabins();
+  const { bookings, isLoading: isLoading1, error: bookingsError } = useRecentBookings();
+  const { confirmedStays, isLoading: isLoading2, numDays, error: staysError } = useRecentStays();
+  const { cabins, isLoading: isLoading3, error: cabinsError } = useCabins();
 
   if (isLoading1 || isLoading2 || isLoading3) return <Spinner />;
+  const error = bookingsError || staysError || cabinsError;
+  if (error) return <p role="alert">{error.message}</p>;
 
   return (
     <StyledDashboardLayout>

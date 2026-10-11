@@ -15,7 +15,9 @@ export function useLogin() {
     },
     onError: (err) => {
       console.log("ERROR", err);
-      showToast("error", "Provided email or password are incorrect");
+      showToast("error", err.message === "Invalid login credentials"
+        ? "Provided email or password are incorrect"
+        : "Could not log in. Check your connection and Supabase project status.");
     },
   });
 

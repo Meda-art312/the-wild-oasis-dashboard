@@ -8,6 +8,7 @@ import { useUpdateSetting } from "./useUpdateSetting";
 function UpdateSettingsForm() {
   const {
     isLoading,
+    error,
     settings: {
       minBookingLength,
       maxBookingLength,
@@ -18,6 +19,7 @@ function UpdateSettingsForm() {
   const { isUpdating, updateSetting } = useUpdateSetting();
 
   if (isLoading) return <Spinner />;
+  if (error) return <p role="alert">{error.message}</p>;
 
   function handleUpdate(e, field) {
     const { value } = e.target;

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import styled from "styled-components";
 
 import BookingDataBox from "./BookingDataBox";
@@ -26,7 +25,7 @@ const HeadingGroup = styled.div`
 `;
 
 function BookingDetail() {
-  const { isLoading, booking } = useBooking();
+  const { isLoading, booking, error } = useBooking();
   const { checkout, isCheckingOut } = useCheckout();
   const { deleteBooking, isDeleting } = useDeleteBooking();
   const moveBack = useMoveBack();
@@ -39,6 +38,7 @@ function BookingDetail() {
   };
 
   if (isLoading) return <Spinner />;
+  if (error) return <p role="alert">{error.message}</p>;
   const { status, id: bookingId } = booking;
 
   return (

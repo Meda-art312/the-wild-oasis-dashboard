@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Button from "./Button";
 
 const StyledErrorFallback = styled.main`
   height: 100vh;
@@ -29,3 +30,15 @@ const Box = styled.div`
     color: var(--color-grey-500);
   }
 `;
+
+export default function ErrorFallback() {
+  return (
+    <StyledErrorFallback>
+      <Box>
+        <h1>Something went wrong</h1>
+        <p>Please reload the application and try again.</p>
+        <Button onClick={() => window.location.reload()}>Reload</Button>
+      </Box>
+    </StyledErrorFallback>
+  );
+}

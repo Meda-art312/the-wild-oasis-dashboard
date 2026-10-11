@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import Logo from "./Logo.jsx";
 import MainNav from "./MainNav.jsx";
-import Uploader from "../data/Uploader.jsx"
+import { lazy, Suspense } from "react";
+
+const SampleDataUploader = import.meta.env.DEV
+  ? lazy(() => import("../data/Uploader.jsx"))
+  : null;
 
 const StyledSidebar = styled.aside`
   padding: 3.2rem 2.4rem;
@@ -18,7 +22,7 @@ function Siderbar() {
     <StyledSidebar>
       <Logo />
       <MainNav />
-      <Uploader/>
+      {SampleDataUploader && <Suspense fallback={null}><SampleDataUploader /></Suspense>}
     </StyledSidebar>
   );
 }

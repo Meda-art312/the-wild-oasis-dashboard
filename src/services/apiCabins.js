@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import supabase, { supabaseUrl } from "./supabase.js";
 
 export async function getCabins() {
@@ -13,10 +12,20 @@ export async function getCabins() {
 
 export async function createCabin(cabin, id) {
   const hasImagePath = cabin.image?.startsWith?.(supabaseUrl);
-  const imageName = `${Math.random()}-${cabin.image.name}`.replaceAll("/", "");
+  const imageName = hasImagePath
+    ? null
+    : `${crypto.randomUUID()}-${cabin.image.name}`.replaceAll("/", "");
   const imagePath = hasImagePath
     ? cabin.image
     : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+  // Upload first so a storage failure cannot delete an existing cabin during editing.
+  if (!hasImagePath) {
+    const { error: storageError } = await supabase.storage
+      .from("cabin-images")
+      .upload(imageName, cabin.image);
+    if (storageError) throw new Error("Cabin image could not be uploaded");
+  }
+
   //CREATE/EDIT CABIN
   let query = supabase.from("cabins");
   //CREATE CABIN
@@ -30,21 +39,11 @@ export async function createCabin(cabin, id) {
   const { data, error } = await query.select().single();
 
   if (error) {
+    if (!hasImagePath)
+      await supabase.storage.from("cabin-images").remove([imageName]);
     console.log("Cabins failed to create");
     throw new Error("Cabins failed to create");
   }
-  //Upload image
-  if (hasImagePath) return data;
-  const { error: storageError } = await supabase.storage
-    .from("cabin-images")
-    .upload(imageName, cabin.image);
-
-  if (storageError) {
-    await supabase.from("cabins").delete().eq("id", data.id);
-    console.log(storageError);
-    throw new Error("Cabins failed to upload image");
-  }
-
   return data;
 }
 

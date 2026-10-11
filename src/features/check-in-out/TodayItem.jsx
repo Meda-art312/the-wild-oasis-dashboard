@@ -9,8 +9,8 @@ import CheckoutButton from "./CheckoutButton";
 
 const StyledTodayItem = styled.li`
   display: grid;
-  grid-template-columns: 9rem 2rem 1fr 7rem 9rem;
-  gap: 1.2rem;
+  grid-template-columns: 7.8rem 2rem minmax(0, 1fr) auto auto;
+  gap: 0.8rem;
   align-items: center;
 
   font-size: 1.4rem;
@@ -34,7 +34,7 @@ function TodayItem({ activity }) {
       {status === "unconfirmed" && <Tag type="green">Arriving</Tag>}
       {status === "checked-in" && <Tag type="blue">Departing</Tag>}
 
-      <Flag src={guests.countryFlag} alt={`Flag of ${guests.country}`} />
+      <Flag src={guests.countryFlag} alt={`Flag of ${guests.nationality}`} />
       <Guest>{guests.fullName}</Guest>
       <div>{numNights} nights</div>
 

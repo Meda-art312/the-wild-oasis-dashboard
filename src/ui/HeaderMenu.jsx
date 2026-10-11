@@ -17,7 +17,7 @@ function HeaderMenu() {
   return (
     <StyledHeaderMenu>
       <li>
-        <ButtonIcon onClick={() => navigate("/account")}>
+        <ButtonIcon aria-label="Account" onClick={() => navigate("/account")}>
           <HiOutlineUser />
         </ButtonIcon>
       </li>

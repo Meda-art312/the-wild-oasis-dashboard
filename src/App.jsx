@@ -16,6 +16,7 @@ import Booking from "./pages/Booking.jsx";
 import Checkin from "./pages/Checkin.jsx";
 import ProtectedRoute from "./ui/ProtectedRoute.jsx";
 import { DarkModeProvider } from "./context/DarkModeContext.jsx";
+import { isSupabaseConfigured } from "./services/supabase.js";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,6 +27,18 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  if (!isSupabaseConfigured)
+    return (
+      <>
+        <GlobalStyles />
+        <main style={{ maxWidth: "64rem", margin: "10rem auto", padding: "2.4rem" }}>
+          <h1>The Wild Oasis needs configuration</h1>
+          <p>Connect a Supabase project to finish setting up this application.</p>
+          <p>See the repository README for local setup and deployment instructions.</p>
+        </main>
+      </>
+    );
+
   return (
     <DarkModeProvider>
       <QueryClientProvider client={queryClient}>

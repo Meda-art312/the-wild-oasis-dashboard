@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import BookingRow from "./BookingRow";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
@@ -8,11 +7,11 @@ import Spinner from "../../ui/Spinner.jsx";
 import Pagination from "../../ui/Pagination.jsx";
 
 function BookingTable() {
-  const { bookings, isLoading, count } = useBookings();
-
-  if (!bookings?.length) return <Empty resource="bookings" />;
+  const { bookings, isLoading, count, error } = useBookings();
 
   if (isLoading) return <Spinner />;
+  if (error) return <p role="alert">{error.message}</p>;
+  if (!bookings?.length) return <Empty resource="bookings" />;
 
   return (
     <Menus>
